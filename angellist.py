@@ -31,34 +31,34 @@ class AngelListError(Exception):
 
 class AngelList(object):
     def __init__(self):
-            """
-            AngelList Base class that simply implements AngelList OAuth Authorization and
-            AngelList APIs such as Activity Feeds, Follows, Reviews, Startups,
-            Startup Roles, Status Updates, Tags, and Users.
+        """
+        AngelList Base class that simply implements AngelList OAuth Authorization and
+        AngelList APIs such as Activity Feeds, Follows, Reviews, Startups,
+        Startup Roles, Status Updates, Tags, and Users.
 
-            Please create an application from the link below if you do not have an API key
-            and secret key yet.
-            - http://angel.co/api/oauth/clients
-            """
-            # Credientials
-            self.URI_SCHEME            = "https"
-            self.API_ENDPOINT        = "%s://api.angel.co" % self.URI_SCHEME
-            self.OAUTH_ENDPOINT    = "%s://angel.co/api" % self.URI_SCHEME
-            self.ACCESS_TOKEN_URL  = "/oauth/token"
-            self.AUTHORIZATION_URL = "/oauth/authorize"
-            self.client_id             = None
-            self.client_secret     = None
-            self.access_token        = None
+        Please create an application from the link below if you do not have an API key
+        and secret key yet.
+        - http://angel.co/api/oauth/clients
+        """
+        # Credientials
+        self.URI_SCHEME            = "https"
+        self.API_ENDPOINT        = "%s://api.angel.co" % self.URI_SCHEME
+        self.OAUTH_ENDPOINT    = "%s://angel.co/api" % self.URI_SCHEME
+        self.ACCESS_TOKEN_URL  = "/oauth/token"
+        self.AUTHORIZATION_URL = "/oauth/authorize"
+        self.client_id             = None
+        self.client_secret     = None
+        self.access_token        = None
 
     #############################
     # OAUTH SPECIFIC SECTION
     #############################
 
     def getAuthorizeURL(self, client_id = None, ):
-            self.client_id = client_id and client_id or self.client_id
-            if self.client_id is None:
-                  raise AngelListError("client_id is NULL. Plase set this or pass it as a parameter first.")
-            return "%s%s?client_id=%s&response_type=code" % (self.OAUTH_ENDPOINT, self.AUTHORIZATION_URL, self.client_id)
+        self.client_id = client_id and client_id or self.client_id
+        if self.client_id is None:
+            raise AngelListError("client_id is NULL. Plase set this or pass it as a parameter first.")
+        return "%s%s?client_id=%s&response_type=code" % (self.OAUTH_ENDPOINT, self.AUTHORIZATION_URL, self.client_id)
 
     def getAccessToken(self, client_id = None, client_secret = None, code = None):
         self.client_id = client_id and client_id or self.client_id
