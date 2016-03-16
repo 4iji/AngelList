@@ -389,6 +389,8 @@ class AngelList(object):
         url = '%s/1/search?access_token=%s' % (self.API_ENDPOINT, self.access_token)
         url = '%s&query=%s' % (url, query)
         if type_option:
+            if type_option not in ['User', 'Startup', 'MarketTag', 'LocationTag']:
+                raise AngelListError("invalid type_option tag, use 'User', 'Startup', 'MarketTag' or 'LocationTag'")
             url = '%s&type=%s' % (url, type_option)
         print url
         try:
