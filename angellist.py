@@ -239,11 +239,13 @@ class AngelList(object):
         return self.do_get_request('%s/1/startups/%s?access_token=%s' % (self.API_ENDPOINT, startup_id, self.access_token))
 
     # (GET)    https://api.angel.co/1/startups/search
+    ### NOT WORKING ANYMORE [[SLUG ISSUE]]
     def getStartupsSearch(self, access_token = None, slug = None, domain = None):
         """
         slug - OPTIONAL - the slug for the startup you are searching for
         domain - OPTIONAL - the domain of the startup you are searching for
         """
+        raise AngelListError("getStartupSearch method deprecated, not present in modern API")
         self.check_access_token(access_token)
         url = '%s/1/startups/search?access_token=%s' % (self.API_ENDPOINT, self.access_token)
         if slug:
