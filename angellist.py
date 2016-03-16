@@ -377,3 +377,23 @@ class AngelList(object):
     def getMe(self, access_token = None):
         self.check_access_token(access_token)
         return self.do_get_request('%s/1/me?access_token=%s' % (self.API_ENDPOINT, self.access_token))
+
+    ##########################################################
+    # Search (http://angel.co/api/spec/search)
+    def getSearch(self, access_token = None, query = None, type_option = None):
+        self.check_access_token(access_token)
+        if query is None:
+            raise AngelListError("the query param is required for this api call.")
+        else:
+            query = urllib.quote(query)
+        url = '%s/1/search?access_token=%s' % (self.API_ENDPOINT, self.access_token)
+        url = '%s&query=%s' % (url, query)
+        if type_option:
+            url = '%s&type=%s' % (url, type_option)
+        print url
+        try:
+            results = self.do_get_request(url)
+        except:
+            # couldn't find any results so just return an empty object
+            results = json.loads('{}')
+        return results
