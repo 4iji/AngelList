@@ -254,13 +254,6 @@ class AngelList(object):
             url = '%s&domain=%s' % (url, domain)
         return self.do_get_request(url)
 
-    # (GET)    https://api.angel.co/1/tags/:id/startups
-    def getTagsStartups(self, access_token = None, tag_id = None):
-        self.check_access_token(access_token)
-        if tag_id is None:
-            raise AngelListError("the tag_id param is required for this api call.")
-        return self.do_get_request('%s/1/tags/%s/startups?access_token=%s' % (self.API_ENDPOINT, tag_id, self.access_token))
-
     ##########################################################
     # Startup Roles (http://angel.co/api/spec/startup_roles)
     # (GET)    https://api.angel.co/1/startup_roles
@@ -320,33 +313,18 @@ class AngelList(object):
 
     ##########################################################
     # Tags (http://angel.co/api/spec/tags)
-    # (GET)    https://api.angel.co/1/tags/:id
-    def getTags(self, access_token = None, tag_id = None):
+    # (GET)    https://api.angel.co/1/tags/:id/[domain]
+    def getTags(self, access_token = None, tag_id = None, domain = None):
         self.check_access_token(access_token)
         if tag_id is None:
             raise AngelListError("the tag_id param is required for this api call.")
-        return self.do_get_request('%s/1/tags/%s?access_token=%s' % (self.API_ENDPOINT, tag_id, self.access_token))
-
-    # (GET)    https://api.angel.co/1/tags/:id/children
-    def getTagsChildren(self, access_token = None, tag_id = None):
-        self.check_access_token(access_token)
-        if tag_id is None:
-            raise AngelListError("the tag_id param is required for this api call.")
-        return self.do_get_request('%s/1/tags/%s/children?access_token=%s' % (self.API_ENDPOINT, tag_id, self.access_token))
-
-    # (GET)    https://api.angel.co/1/tags/:id/parents
-    def getTagsParents(self, access_token = None, tag_id = None):
-        self.check_access_token(access_token)
-        if tag_id is None:
-            raise AngelListError("the tag_id param is required for this api call.")
-        return self.do_get_request('%s/1/tags/%s/parents?access_token=%s' % (self.API_ENDPOINT, tag_id, self.access_token))
-
-    # (GET)    https://api.angel.co/1/tags/:id/startups
-    def getTagsStartups(self, access_token = None, tag_id = None):
-        self.check_access_token(access_token)
-        if tag_id is None:
-            raise AngelListError("the tag_id param is required for this api call.")
-        return self.do_get_request('%s/1/tags/%s/startups?access_token=%s' % (self.API_ENDPOINT, tag_id, self.access_token))
+        url = '%s/1/tags/%s' % (self.API_ENDPOINT, tag_id)
+        if domain:
+            if domain not in ['children', 'parents', 'startups', 'users']:
+                raise AngelListError("invalid domain option, use 'children', 'parents', 'startups' or 'users'")            
+            url = '%s/%s' % (url, domain)
+        url = '%s?access_token=%s' % (url, self.access_token)
+        return self.do_get_request(url)
 
     ##########################################################
     # Users (http://angel.co/api/spec/users)
