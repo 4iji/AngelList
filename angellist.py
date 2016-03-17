@@ -183,56 +183,56 @@ class AngelList(object):
         return self.do_post_request(url, data)
 
     # (GET)    https://api.angel.co/1/users/:id/followers
-    def getFollowers(self, access_token = None, user_id = None):
+    def getFollowers(self, access_token = None, user_id = None, page = 1):
         self.check_access_token(access_token)
         if user_id is None:
             raise AngelListError("the user_id param is required for this api call.")
-        return self.do_get_request('%s/1/users/%s/followers?access_token=%s' % (self.API_ENDPOINT, user_id, self.access_token))
+        return self.do_get_request('%s/1/users/%s/followers?access_token=%s&page=%d' % (self.API_ENDPOINT, user_id, self.access_token, page))
 
     # (GET)    https://api.angel.co/1/users/:id/followers/ids
-    def getFollowersIds(self, access_token = None, user_id = None):
+    def getFollowersIds(self, access_token = None, user_id = None, page = 1):
         self.check_access_token(access_token)
         if user_id is None:
             raise AngelListError("the user_id param is required for this api call.")
-        return self.do_get_request('%s/1/users/%s/followers/ids?access_token=%s' % (self.API_ENDPOINT, user_id, self.access_token))
+        return self.do_get_request('%s/1/users/%s/followers/ids?access_token=%s&page=%d' % (self.API_ENDPOINT, user_id, self.access_token, page))
 
     # (GET)    https://api.angel.co/1/users/:id/following
-    def getFollowing(self, access_token = None, user_id = None):
+    def getFollowing(self, access_token = None, user_id = None, page = 1):
         self.check_access_token(access_token)
         if user_id is None:
             raise AngelListError("the user_id param is required for this api call.")
-        return self.do_get_request('%s/1/users/%s/following?access_token=%s' % (self.API_ENDPOINT, user_id, self.access_token))
+        return self.do_get_request('%s/1/users/%s/following?access_token=%s&page=%d' % (self.API_ENDPOINT, user_id, self.access_token, page))
 
     # (GET)    https://api.angel.co/1/users/:id/following/ids
-    def getFollowingIds(self, access_token = None, user_id = None):
+    def getFollowingIds(self, access_token = None, user_id = None, page = 1):
         self.check_access_token(access_token)
         if user_id is None:
             raise AngelListError("the user_id param is required for this api call.")
-        return self.do_get_request('%s/1/users/%s/following/ids?access_token=%s' % (self.API_ENDPOINT, user_id, self.access_token))
+        return self.do_get_request('%s/1/users/%s/following/ids?access_token=%s&page=%d' % (self.API_ENDPOINT, user_id, self.access_token, page))
 
     # (GET)    https://api.angel.co/1/startups/:id/followers
-    def getStartupsFollowers(self, access_token = None, startup_id = None):
+    def getStartupsFollowers(self, access_token = None, startup_id = None, page = 1):
         self.check_access_token(access_token)
         if startup_id is None:
             raise AngelListError("the startup_id param is required for this api call.")
-        return self.do_get_request('%s/1/startups/%s/followers?access_token=%s' % (self.API_ENDPOINT, startup_id, self.access_token))
+        return self.do_get_request('%s/1/startups/%s/followers?access_token=%s&page=%d' % (self.API_ENDPOINT, startup_id, self.access_token, page))
 
     # (GET)    https://api.angel.co/1/startups/:id/followers/ids
-    def getStartupsFollowersIds(self, access_token = None, startup_id = None):
+    def getStartupsFollowersIds(self, access_token = None, startup_id = None, page = 1):
         self.check_access_token(access_token)
         if startup_id is None:
             raise AngelListError("the startup_id param is required for this api call.")
-        return self.do_get_request('%s/1/startups/%s/followers/ids?access_token=%s' % (self.API_ENDPOINT, startup_id, self.access_token))
+        return self.do_get_request('%s/1/startups/%s/followers/ids?access_token=%s&page=%d' % (self.API_ENDPOINT, startup_id, self.access_token, page))
 
     ##########################################################
     # Reviews (http://angel.co/api/spec/reviews)
     # (GET)    https://api.angel.co/1/reviews
-    def getReviews(self, access_token = None, user_id = None):
+    def getReviews(self, access_token = None, user_id = None, page = 1):
         """
         user_id - OPTIONAL - id of the user you want reviews on (defaults to auth'ed user)
         """
         self.check_access_token(access_token)
-        return self.do_get_request('%s/1/reviews?access_token=%s&user_id=%s' % (self.API_ENDPOINT, self.access_token, user_id))
+        return self.do_get_request('%s/1/reviews?access_token=%s&page=%d&user_id=%s' % (self.API_ENDPOINT, self.access_token, page, user_id))
 
     ##########################################################
     # Startups (http://angel.co/api/spec/startups)
@@ -243,32 +243,16 @@ class AngelList(object):
             raise AngelListError("the startup_id param is required for this api call.")
         return self.do_get_request('%s/1/startups/%s?access_token=%s' % (self.API_ENDPOINT, startup_id, self.access_token))
 
-    # (GET)    https://api.angel.co/1/startups/search
-    ### NOT WORKING ANYMORE [[SLUG ISSUE]]
-    def getStartupsSearch(self, access_token = None, slug = None, domain = None):
-        """
-        slug - OPTIONAL - the slug for the startup you are searching for
-        domain - OPTIONAL - the domain of the startup you are searching for
-        """
-        raise AngelListError("getStartupSearch method deprecated, not present in modern API")
-        self.check_access_token(access_token)
-        url = '%s/1/startups/search?access_token=%s' % (self.API_ENDPOINT, self.access_token)
-        if slug:
-            url = '%s&slug=%s' % (url, slug)
-        if domain:
-            url = '%s&domain=%s' % (url, domain)
-        return self.do_get_request(url)
-
     ##########################################################
     # Startup Roles (http://angel.co/api/spec/startup_roles)
     # (GET)    https://api.angel.co/1/startup_roles
-    def getStartupRoles(self, access_token = None, user_id = None, startup_id = None):
+    def getStartupRoles(self, access_token = None, user_id = None, startup_id = None, page = 1):
         """
         user_id - OPTIONAL - the user who's startup relationships you want to view
         startup_id - OPTIONAL - the startup who's user relationships you want to view
         """
         self.check_access_token(access_token)
-        url = '%s/1/startup_roles?v=1&access_token=%s' % (self.API_ENDPOINT, self.access_token)
+        url = '%s/1/startup_roles?v=1&access_token=%s&page=%d' % (self.API_ENDPOINT, self.access_token, page)
         if user_id:
             url = '%s&user_id=%s' % (url, user_id)
         if startup_id:
@@ -278,13 +262,13 @@ class AngelList(object):
     ##########################################################
     # Status Updates (http://angel.co/api/spec/status_update)
     # (GET)    https://api.angel.co/1/status_updates
-    def getStatusUpdates(self, access_token = None, user_id = None, startup_id = None):
+    def getStatusUpdates(self, access_token = None, user_id = None, startup_id = None, page = 1):
         """
         user_id - OPTIONAL
         startup_id - OPTIONAL
         """
         self.check_access_token(access_token)
-        url = '%s/1/startups_updates?access_token=%s' % (self.API_ENDPOINT, self.access_token)
+        url = '%s/1/startups_updates?access_token=%s&page=%d' % (self.API_ENDPOINT, self.access_token, page)
         if user_id:
             url = '%s&user_id=%s' % (url, user_id)
         if startup_id:
@@ -319,7 +303,7 @@ class AngelList(object):
     ##########################################################
     # Tags (http://angel.co/api/spec/tags)
     # (GET)    https://api.angel.co/1/tags/:id/[domain]
-    def getTags(self, access_token = None, tag_id = None, domain = None):
+    def getTags(self, access_token = None, tag_id = None, domain = None, page = 1):
         self.check_access_token(access_token)
         if tag_id is None:
             raise AngelListError("the tag_id param is required for this api call.")
@@ -328,17 +312,17 @@ class AngelList(object):
             if domain not in ['children', 'parents', 'startups', 'users']:
                 raise AngelListError("invalid domain option, use 'children', 'parents', 'startups' or 'users'")            
             url = '%s/%s' % (url, domain)
-        url = '%s?access_token=%s' % (url, self.access_token)
+        url = '%s?access_token=%s&page=%d' % (url, self.access_token, page)
         return self.do_get_request(url)
 
     ##########################################################
     # Users (http://angel.co/api/spec/users)
     # (GET)    https://api.angel.co/1/users/:id
-    def getUsers(self, access_token = None, user_id = None):
+    def getUsers(self, access_token = None, user_id = None, page = 1):
         self.check_access_token(access_token)
         if user_id is None:
             raise AngelListError("the user_id param is required for this api call.")
-        return self.do_get_request('%s/1/users/%s?access_token=%s' % (self.API_ENDPOINT, user_id, self.access_token))
+        return self.do_get_request('%s/1/users/%s?access_token=%s&page=%d' % (self.API_ENDPOINT, user_id, self.access_token, page))
 
     # (GET)    https://api.angel.co/1/users/search
     def getUsersSearch(self, access_token = None, slug = None, email = None):
@@ -363,6 +347,7 @@ class AngelList(object):
 
     ##########################################################
     # Search (http://angel.co/api/spec/search)
+    # (GET)    https://api.angel.co/1/search
     def getSearch(self, access_token = None, query = None, type_option = None):
         self.check_access_token(access_token)
         if query is None:
