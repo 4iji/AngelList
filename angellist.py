@@ -96,6 +96,7 @@ class AngelList(object):
         """
         perform a GET request to the supplied url
         """
+        print url
         response = urllib2.urlopen(url)
         return json.loads(response.read())
 
@@ -105,6 +106,8 @@ class AngelList(object):
         """
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
         params = urllib.urlencode(data)
+        print url
+        print params
         response = urllib2.urlopen(urllib2.Request(url, params, headers))
         return json.loads(response.read())
 
@@ -114,6 +117,8 @@ class AngelList(object):
         """
         opener = urllib2.build_opener(urllib2.HTTPHandler)
         params = urllib.urlencode(data)
+        print url
+        print params
         request = urllib2.Request(url, params)
         request.add_header('Content-Type', 'text/plain')
         request.get_method = lambda: 'DELETE'
@@ -370,7 +375,6 @@ class AngelList(object):
             if type_option not in ['User', 'Startup', 'MarketTag', 'LocationTag']:
                 raise AngelListError("invalid type_option tag, use 'User', 'Startup', 'MarketTag' or 'LocationTag'")
             url = '%s&type=%s' % (url, type_option)
-        print url
         try:
             results = self.do_get_request(url)
         except:
