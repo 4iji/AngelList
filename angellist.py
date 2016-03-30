@@ -30,7 +30,7 @@ class AngelListError(Exception):
     return repr(self.parameter)
 
 class AngelList(object):
-    def __init__(self):
+    def __init__(self, verbose = False):
         """
         AngelList Base class that simply implements AngelList OAuth Authorization and
         AngelList APIs such as Activity Feeds, Follows, Reviews, Startups,
@@ -41,14 +41,16 @@ class AngelList(object):
         - http://angel.co/api/oauth/clients
         """
         # Credientials
-        self.URI_SCHEME            = "https"
-        self.API_ENDPOINT        = "%s://api.angel.co" % self.URI_SCHEME
+        self.URI_SCHEME        = "https"
+        self.API_ENDPOINT      = "%s://api.angel.co" % self.URI_SCHEME
         self.OAUTH_ENDPOINT    = "%s://angel.co/api" % self.URI_SCHEME
         self.ACCESS_TOKEN_URL  = "/oauth/token"
         self.AUTHORIZATION_URL = "/oauth/authorize"
-        self.client_id             = None
+        self.client_id         = None
         self.client_secret     = None
-        self.access_token        = None
+        self.access_token      = None
+
+        self.verbose = verbose
 
     #############################
     # OAUTH SPECIFIC SECTION
@@ -96,7 +98,8 @@ class AngelList(object):
         """
         perform a GET request to the supplied url
         """
-        print url
+        if self.verbose:
+            print url
         response = urllib2.urlopen(url)
         return json.loads(response.read())
 
